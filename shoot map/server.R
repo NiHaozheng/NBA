@@ -26,11 +26,11 @@ shinyServer(function(input, output, session) {
     # Can use character(0) to remove all choices
     if (is.null(x))
       x <- character(0)
-    if (x == 'Warriors'){
+    if (x == 'Rockets'){
       updateSelectInput(session, "player_name",
                         choices = c("Enter a player..." = "", 
                                     available_players[available_players$team_name==x,]$name),
-                        selected = "Stephen Curry"
+                        selected = "James Harden"
       )} else{
     # Can also set the label and select items
     updateSelectInput(session, "player_name",

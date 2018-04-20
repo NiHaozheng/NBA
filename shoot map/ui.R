@@ -34,14 +34,14 @@ shinyUI(
       column(6,
              selectInput("team",
                          "Select a Team:",
-                         choices=c("Enter a player..." = "",team),
-                         selected = "Warriors")),
+                         choices=c("Enter a team..." = "",team),
+                         selected = "Rockets")),
       
       column(6,
              selectInput("player_name",
                          "Select a Player:",
                          choices = c("Enter a player..." = "", 
-                                     available_players[available_players$team_name=='Warriors',]$name),
+                                     available_players[available_players$team_name=='Rockets',]$name),
                          selected = default_player$name))),
     
     fixedRow(class = "primary-content",

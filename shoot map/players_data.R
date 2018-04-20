@@ -62,7 +62,7 @@ find_player_id_by_name = function(n) {
   find_player_by_name(n)$person_id
 }
 
-default_player = find_player_by_name("Stephen Curry")
+default_player = find_player_by_name("James Harden")
 default_years = as.character(default_player$from_year:default_player$to_year)
 default_seasons = as.character(season_strings[default_years])
 default_season = rev(default_seasons)[1]
