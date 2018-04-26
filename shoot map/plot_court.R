@@ -7,7 +7,7 @@ circle_points = function(center = c(0, 0), radius = 1, npoints = 360) {
 theme_court = function(base_size = 16) {
   theme_bw(base_size) +
     theme(
-      text = element_text(color = "#f0f0f0"),
+      text = element_text(color = "#000000"),
       plot.background = element_rect(fill = bg_color, color = bg_color),
       panel.background = element_rect(fill = bg_color, color = bg_color),
       panel.grid = element_blank(),
