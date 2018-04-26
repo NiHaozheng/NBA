@@ -95,11 +95,11 @@ shinyServer(function(input, output, session) {
   })
 
   hexbin_data = reactive({
-    req(filtered_shots(), shots(), hexbinwidths(), input$hex_radius)
+    req(filtered_shots(), shots(), hexbinwidths())
 
     calculate_hexbins_from_shots(filtered_shots(), shots()$league_averages,
                                  binwidths = hexbinwidths(),
-                                 min_radius_factor = input$hex_radius)
+                                 min_radius_factor = 0.4)
   })
 
   output$hexbinwidth_slider = renderUI({
@@ -118,21 +118,10 @@ shinyServer(function(input, output, session) {
     rep(input$hexbinwidth, 2)
   })
 
-  output$hex_radius_slider = renderUI({
-    req(input$chart_type == "Hexagonal")
-
-    sliderInput("hex_radius",
-                "Min Hexagon Size Adjustment",
-                min = 0,
-                max = 1,
-                value = 0.4,
-                step = 0.05)
-  })
-
   alpha_range = reactive({
-    req(input$chart_type == "Hexagonal", input$hex_radius)
+    req(input$chart_type == "Hexagonal", 0.4)
     max_alpha = 0.98
-    min_alpha = max_alpha - 0.25 * input$hex_radius
+    min_alpha = max_alpha - 0.25 * 0.4
     c(min_alpha, max_alpha)
   })
 
@@ -176,40 +165,6 @@ shinyServer(function(input, output, session) {
     current_player()$name
   })
 
-  output$chart_header_info = renderText({
-    req(current_season(), shots())
-    paste(current_season(), "Regular Season")
-  })
-
-  output$chart_header_team = renderText({
-    req(shots()$player)
-    paste0(unique(shots()$player$team_name), collapse = ", ")
-  })
-
-  output$shot_chart_footer = renderUI({
-    req(shot_chart())
-
-    tags$div(
-      "Data via stats.nba.com"
-    )
-  })
-
-  output$download_link = renderUI({
-    req(shot_chart())
-
-    filename_parts = c(
-      current_player()$name,
-      current_season(),
-      "Shot Chart",
-      input$chart_type
-    )
-    fname = paste0(gsub("_", "-", gsub(" ", "-", tolower(filename_parts))), collapse = "-")
-
-    tags$a("Download Chart",
-           href = "#",
-           class = "download-shot-chart",
-           "data-filename" = paste0(fname, ".png"))
-  })
 
   output$player_photo = renderUI({
     if (input$player_name == "") {

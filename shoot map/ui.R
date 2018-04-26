@@ -27,7 +27,6 @@ shinyUI(
       tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"),
       tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"),
       tags$script(src = "shared/selectize/js/selectize.min.js"),
-      tags$script(src = "ballr.js"),
       includeScript("www/google-analytics.js")
     ),
     fluidRow(
@@ -45,66 +44,35 @@ shinyUI(
                          selected = default_player$name))),
     
     fixedRow(class = "primary-content",
-      div(class = "col-sm-8 col-md-9",
-        div(class = "shot-chart-container",
-          div(class = "shot-chart-header",
-            h2(textOutput("chart_header_player")),
-            h4(textOutput("chart_header_info")),
-            h4(textOutput("chart_header_team"))
-          ),
-          #plotOutput("plot")
-          plotOutput("court", height = "auto")
-
-          #uiOutput("shot_filters_applied"),
-
-          #uiOutput("shot_chart_footer")
-        ),
-
-        div(class = "download-link-container",
-          uiOutput("download_link")
-        ),
-
-        h3(textOutput("summary_stats_header")),
-        uiOutput("summary_stats")
-      ),
-
-      div(class = "col-sm-4 col-md-3",
-        div(class = "shot-chart-inputs",
-          uiOutput("player_photo"),
-
-          selectInput(inputId = "season",
-                      label = "Season",
-                      choices = rev(default_seasons),
-                      selected = default_season,
-                      selectize = FALSE),
-          selectInput(inputId = "minutes",
-                      label = "Minutes Remaining",
-                      choices = c(1:5),
-                      selected = 5,
-                      selectize = FALSE),
-
-          radioButtons(inputId = "chart_type",
-                       label = "Chart Type",
-                       choices = c("Hexagonal", "Scatter", "Heat Map"),
-                       selected = "Hexagonal"),
-
-          uiOutput("hex_metric_buttons"),
-          uiOutput("hexbinwidth_slider"),
-          uiOutput("hex_radius_slider"),
-
-          h4("Filters"),
-
-          selectInput(inputId = "shot_zone_basic_filter",
-                      label = "Shot Zones",
-                      choices = c("Above the Break 3",
-                                  "Left Corner 3",
-                                  "Right Corner 3",
-                                  "Mid-Range",
-                                  "In The Paint (Non-RA)",
-                                  "Restricted Area"),
-                      multiple = TRUE,
-                      selectize = FALSE),
-
+             
+     div(class = "col-sm-5 col-md-9",
+         div(class = "player info",
+             uiOutput("player_photo"),
+             
+             selectInput(inputId = "season",
+                         label = "Season",
+                         choices = rev(default_seasons),
+                         selected = default_season,
+                         selectize = FALSE),
+             selectInput(inputId = "minutes",
+                         label = "Minutes Remaining",
+                         choices = c(1:5),
+                         selected = 5,
+                         selectize = FALSE),
+             h3(textOutput("summary_stats_header")),
+             uiOutput("summary_stats")
+             ))   , 
+      div(class = "col-sm-7 col-md-9",
+          plotOutput("court", height = "auto"),
+          
+        div(class = "col-sm-1 col-md-9"),
+          div(class='col-sm-3 col-md-9',
+              radioButtons(inputId = "chart_type",
+                           label = "Chart Type",
+                           choices = c( "Scatter", "Heat Map","Hexagonal"),
+                           selected = "Scatter")
+            ),
+        div(class='col-sm-4 col-md-9',
           selectInput(inputId = "shot_zone_angle_filter",
                       label = "Shot Angles",
                       choices = c("Left Side" = "Left Side(L)",
@@ -113,8 +81,10 @@ shinyUI(
                                   "Right Center" = "Right Side Center(RC)",
                                   "Right Side" = "Right Side(R)"),
                       multiple = TRUE,
-                      selectize = FALSE),
-
+                      selectize = FALSE)
+          )
+      ,
+      div(class='col-sm-4 col-md-9',  
           selectInput(inputId = "shot_distance_filter",
                       label = "Shot Distances",
                       choices = c("0-8 ft" = "Less Than 8 ft.",
@@ -122,15 +92,21 @@ shinyUI(
                                   "16-24 ft" = "16-24 ft.",
                                   "24+ ft" = "24+ ft."),
                       multiple = TRUE,
-                      selectize = FALSE),
-
-          selectInput(inputId = "shot_result_filter",
-                      label = "FG Made/Missed",
-                      choices = c("All" = "all", "Made" = "made", "Missed" = "missed"),
-                      selected = "all",
                       selectize = FALSE)
-        )
+          ),
+      div(class='col-sm-3 col-md-9',  
+      selectInput(inputId = "shot_result_filter",
+                  label = "FG Made/Missed",
+                  choices = c("All" = "all", "Made" = "made", "Missed" = "missed"),
+                  selected = "all",
+                  selectize = FALSE)
+      ),
+      div(class='col-sm-5 col-md-9',
+          uiOutput("hex_metric_buttons"),
+          uiOutput("hexbinwidth_slider"),
+          uiOutput("hex_radius_slider")
+      )  
+      
       )
-    )
-  )
+  ))
 )
