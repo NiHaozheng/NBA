@@ -85,6 +85,7 @@ calculate_hexbins_from_shots = function(shots, league_averages, binwidths = c(1,
     group_by(shot_zone_range, shot_zone_area) %>%
     summarize(league_pct = sum(fgm) / sum(fga))
 
+
   hex_data = calculate_hex_coords(shots, binwidths = binwidths)
 
   join_keys = c("shot_zone_area", "shot_zone_range")
